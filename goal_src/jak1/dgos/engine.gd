@@ -38,6 +38,9 @@
   "pckernel-impl.o" ;; added
   "pc-debug-common.o" ;; added
   "pc-debug-methods.o" ;; added
+  "pckernel.o" ;; added
+  "gkernel.o" ;; added
+  "Achievements-h.o" ;; added
   "pad.o"
   "gs.o"
   "display-h.o"

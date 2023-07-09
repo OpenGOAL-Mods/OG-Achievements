@@ -340,6 +340,18 @@
      )
   )
 
+(defmacro dotimes-start-at-1 (var &rest body)
+  "Loop like for (int i = 0; i < end; i++)
+   var is a list made up of a variable to bind the amount to (second item), and the remaining forms are evaluated after the loop is finished."
+  `(let (( ,(first var) 1))
+     (while (< ,(first var) ,(second var))
+            ,@body
+            (1+! ,(first var))
+            )
+     ,@(cddr var)
+     )
+  )
+
 (defmacro countdown (var &rest body)
   "Loop like for (int i = end; i-- > 0)"
   `(let ((,(first var) ,(second var)))

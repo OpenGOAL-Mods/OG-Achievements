@@ -17,7 +17,7 @@
 (defconstant PROGRESS_SCROLL_DIR_DOWN 1)
 
 (defconstant GAME_MIN_RES_MULT 0.5)
-
+(define-extern *spoint-settings* spoint-settings)
 
 (deftype progress-scroll (structure)
   ((transition float)
@@ -2920,6 +2920,7 @@
     (apply-settings *setting-control*)
     (progress-reset-music-parms)
     (commit-to-file *pc-settings*)
+    (commit-to-file *spoint-settings*)
     (set! (-> self particles 3 init-pos x) -320.0)
     (set! (-> self particles 4 init-pos x) -320.0)
     (set! (-> self particles 32 init-pos x) -320.0)

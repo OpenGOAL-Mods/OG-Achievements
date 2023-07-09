@@ -15649,11 +15649,11 @@
    (max-nb-of-particles    int32     :offset-assert 244)
    (nb-of-particles        int32     :offset-assert 248)
    (particles              hud-particle 7 :offset-assert 252)
+   (spoint-name string)
    )
   :heap-base #xb0
   :method-count-assert 27
-  :size-assert         #x118
-  :flag-assert         #x1b00b00118
+
   ;; inherited inspect of process
   (:methods
     (hidden? (_type_) symbol 14)

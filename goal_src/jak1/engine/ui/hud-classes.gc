@@ -130,8 +130,7 @@
   ()
   :heap-base #xb0
   :method-count-assert 27
-  :size-assert         #x118
-  :flag-assert         #x1b00b00118
+
   )
 
 
@@ -277,12 +276,10 @@
   )
 
 (deftype hud-health (hud)
-  ((scale float  :offset-assert 280)
+  ((scale float  )
    )
   :heap-base #xb0
-  :method-count-assert 27
-  :size-assert         #x11c
-  :flag-assert         #x1b00b0011c
+
   )
 
 
@@ -466,12 +463,24 @@
   )
 
 (deftype hud-money-all (hud)
-  ((x-scale     float       :offset-assert 280)
-   (y-scale     float       :offset-assert 284)
-   (y-pos       int32       :offset-assert 288)
-   (total-orbs  int32       :offset-assert 292)
-   (level-index int32       :offset-assert 296)
-   (start-time  time-frame  :offset-assert 304)
+  ((x-scale     float       )
+   (y-scale     float       )
+   (y-pos       int32       )
+   (total-orbs  int32       )
+   (level-index int32       )
+   (start-time  time-frame  )
+   )
+  :heap-base #xd0
+  
+  )
+
+  (deftype skill-point-notice (hud)
+  ((x-scale     float       )
+   (y-scale     float       )
+   (y-pos       int32       )
+   (total-orbs  int32       )
+   (level-index int32       )
+   (start-time  time-frame  )
    )
   :heap-base #xd0
   :method-count-assert 27
@@ -480,7 +489,15 @@
   )
 
 
-(defmethod draw-hud hud-money-all ((obj hud-money-all))
+
+(defun activate-skill-point ((arg0 int) (arg1 string))
+  (if (not (-> *hud-parts* money-all))
+      (set! (-> *hud-parts* money-all) (process-spawn hud-money-all :init hud-init-by-skill arg0 arg1 :to *target*))
+      )
+  0
+  )
+
+(defmethod draw-hud skill-point-notice ((obj skill-point-notice))
   (let ((t9-0 (method-of-type hud draw-hud)))
     (t9-0 obj)
     )
@@ -517,7 +534,7 @@
           )
         (set! (-> s5-1 flags) (font-flags shadow kerning middle left large))
         (print-game-text
-          (lookup-text! *common-text* (-> *level-task-data* (-> obj level-index) level-name-id) #f)
+          "SUPER ACHIVMENT YAY"
           s5-1
           #f
           128
@@ -547,6 +564,94 @@
           (font-flags shadow kerning middle large)
           )
         )
+      (let ((a3-12 (-> s3-0 base)))
+        (let ((v1-32 (the-as dma-packet (-> s3-0 base))))
+          (set! (-> v1-32 dma) (new 'static 'dma-tag :id (dma-tag-id next)))
+          (set! (-> v1-32 vif0) (new 'static 'vif-tag))
+          (set! (-> v1-32 vif1) (new 'static 'vif-tag))
+          (set! (-> s3-0 base) (&+ (the-as pointer v1-32) 16))
+          )
+        (dma-bucket-insert-tag
+          (-> *display* frames (-> *display* on-screen) frame bucket-group)
+          (bucket-id debug)
+          s4-1
+          (the-as (pointer dma-tag) a3-12)
+          )
+        )
+      )
+    )
+  0
+  (none)
+  )
+
+(defmethod draw-hud hud-money-all ((obj hud-money-all))
+
+  (let ((t9-0 (method-of-type hud draw-hud)))
+    (t9-0 obj)
+    )
+  0
+  (let ((s5-0 0))
+    (when (>= (-> obj level-index) 0)
+      (let ((s5-1
+              (new
+                'stack
+                'font-context
+                *font-default-matrix*
+                (+ (* (-> obj x-sgn) (-> obj offset)) -60 (-> obj text-x))
+                (+ (/ (* (+ (-> obj text-y) (* (-> obj y-sgn) (-> obj offset)) (-> obj y-offset))
+                         (the int (-> *video-parms* relative-y-scale))
+                         )
+                      2
+                      )
+                   -17
+                   )
+                0.0
+                (font-color red)
+                (font-flags shadow kerning)
+                )
+              )
+            )
+        (let ((v1-12 s5-1))
+          (set! (-> v1-12 width) (the float 228))
+          )
+        (let ((v1-13 s5-1))
+          (set! (-> v1-13 height) (the float 45))
+          )
+        (let ((v1-14 s5-1))
+          (set! (-> v1-14 scale) 0.6)
+          )
+        (set! (-> s5-1 flags) (font-flags shadow kerning middle left large))
+        (print-game-text
+          (string-upcase (-> obj spoint-name) *pc-temp-string-1*)
+          s5-1
+          #f
+          128
+          1
+          )
+        )
+      (set! s5-0 13)
+      )
+    (let* ((s1-0 50)
+           (s3-0 (-> *display* frames (-> *display* on-screen) frame global-buf))
+           (s4-1 (-> s3-0 base))
+           )
+      ;; (let ((s2-0 draw-string-xy))
+      ;;   (format (clear *temp-string*) "~D/~D" (-> obj total-orbs) (-> obj total-orbs))
+      ;;   (s2-0
+      ;;     *temp-string*
+      ;;     s3-0
+      ;;     (+ (-> obj text-x) (* (-> obj x-sgn) (-> obj offset)) s1-0)
+      ;;     (+ (/ (* (+ (-> obj text-y) (* (-> obj y-sgn) (-> obj offset)) (-> obj y-offset))
+      ;;              (the int (-> *video-parms* relative-y-scale))
+      ;;              )
+      ;;           2
+      ;;           )
+      ;;        s5-0
+      ;;        )
+      ;;     (font-color yellow)
+      ;;     (font-flags shadow kerning middle large)
+      ;;     )
+      ;;   )
       (let ((a3-12 (-> s3-0 base)))
         (let ((v1-32 (the-as dma-packet (-> s3-0 base))))
           (set! (-> v1-32 dma) (new 'static 'dma-tag :id (dma-tag-id next)))
@@ -674,7 +779,8 @@
       )
     )
   (set! (-> obj start-time) (-> *display* base-frame-counter))
-  (sound-play "get-all-orbs")
+  ;;(sound-play "get-all-orbs")
+  (play-rand-sound "snd/snd.mp3" 100)
   0
   (none)
   )
@@ -727,14 +833,14 @@
   )
 
 (deftype hud-money (hud)
-  ((x-scale float  :offset-assert 280)
-   (y-scale float  :offset-assert 284)
-   (y-pos   int32  :offset-assert 288)
+  ((x-scale float  )
+   (y-scale float  )
+   (y-pos   int32  )
    )
   :heap-base #xc0
-  :method-count-assert 27
-  :size-assert         #x124
-  :flag-assert         #x1b00c00124
+
+
+
   )
 
 (define-extern *game-counts* game-count-info)
@@ -1123,18 +1229,18 @@
   )
 
 (deftype hud-fuel-cell (hud)
-  ((scale-starburst-3-x float  :offset-assert 280)
-   (scale-starburst-3-y float  :offset-assert 284)
-   (scale-starburst-4-x float  :offset-assert 288)
-   (scale-starburst-4-y float  :offset-assert 292)
-   (scale-icon          float  :offset-assert 296)
-   (scale-center        float  :offset-assert 300)
-   (icon-pos-y          int32  :offset-assert 304)
+  ((scale-starburst-3-x float  )
+   (scale-starburst-3-y float  )
+   (scale-starburst-4-x float  )
+   (scale-starburst-4-y float  )
+   (scale-icon          float  )
+   (scale-center        float  )
+   (icon-pos-y          int32  )
    )
   :heap-base #xd0
-  :method-count-assert 27
-  :size-assert         #x134
-  :flag-assert         #x1b00d00134
+  
+  
+  
   )
 
 
@@ -1411,13 +1517,13 @@
   )
 
 (deftype hud-buzzers (hud)
-  ((scale         float  :offset-assert 280)
-   (text-y-offset int32  :offset-assert 284)
+  ((scale         float  )
+   (text-y-offset int32  )
    )
-  :heap-base #xb0
-  :method-count-assert 27
-  :size-assert         #x120
-  :flag-assert         #x1b00b00120
+
+  
+  
+  
   )
 
 
@@ -1668,14 +1774,11 @@
   )
 
 (deftype hud-power (hud)
-  ((scale-timer   float  :offset-assert 280)
-   (scale-backing float  :offset-assert 284)
-   (scale-blue    float  :offset-assert 288)
+  ((scale-timer   float  )
+   (scale-backing float  )
+   (scale-blue    float  )
    )
-  :heap-base #xc0
-  :method-count-assert 27
-  :size-assert         #x124
-  :flag-assert         #x1b00c00124
+
   )
 
 
@@ -1983,6 +2086,7 @@
   (set! (-> *hud-parts* bike-speed) (the-as (pointer hud-bike-speed) #f))
   (set! (-> *hud-parts* bike-heat) (the-as (pointer hud-bike-heat) #f))
   (set! (-> *hud-parts* money-all) (the-as (pointer hud-money-all) #f))
+  (set! (-> *hud-parts* skill-point-notice) (the-as (pointer skill-point-notice) #f))
   0
   (none)
   )

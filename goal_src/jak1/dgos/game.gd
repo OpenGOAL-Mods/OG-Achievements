@@ -34,6 +34,7 @@
   "pckernel-impl.o" ;; added
   "pc-debug-common.o" ;; added
   "pc-debug-methods.o" ;; added
+  "Achievements-h.o" ;; added
   "pad.o"
   "gs.o"
   "display-h.o"
@@ -349,6 +350,7 @@
   "mod-settings.o" ;; added
   "mod-common-functions.o" ;; added
   "mod-custom-code.o" ;; added
+  "Achievements.o";; added
   ;; keep zoomer stuff loaded
   "target-racer-h.o"
   "racer-part.o"

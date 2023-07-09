@@ -314,10 +314,7 @@
 
 (deftype hud-bike-heat (hud)
   ()
-  :heap-base #xb0
-  :method-count-assert 27
-  :size-assert         #x118
-  :flag-assert         #x1b00b00118
+
   )
 
 
@@ -389,10 +386,7 @@
 
 (deftype hud-bike-speed (hud)
   ()
-  :heap-base #xb0
-  :method-count-assert 27
-  :size-assert         #x118
-  :flag-assert         #x1b00b00118
+
   )
 
 
