@@ -1031,7 +1031,7 @@
   (sidekick-hint-rounddoor #x23c)
   (sidekick-hint-lurkerm #x23d)
   (sidekick-hint-tower #x23e)
-  
+
   (sidekick-reminder-fish #x240)
 
   (firecanyon-need-cells #x24f)
@@ -15649,7 +15649,7 @@
    (max-nb-of-particles    int32     :offset-assert 244)
    (nb-of-particles        int32     :offset-assert 248)
    (particles              hud-particle 7 :offset-assert 252)
-   (spoint-name string)
+   (spoint-name string :offset-assert 280)
    )
   :heap-base #xb0
   :method-count-assert 27
@@ -22224,26 +22224,26 @@
 (deftype hud-pickups (hud)
   ()
   :method-count-assert 27
-  :size-assert         #x118
-  :heap-base           #xb0
-  :flag-assert         #x1b00b00118
-  )
-
-(deftype hud-health (hud)
-  ((scale float  :offset-assert 280)
-   )
-  :method-count-assert 27
   :size-assert         #x11c
   :heap-base           #xb0
   :flag-assert         #x1b00b0011c
   )
 
+(deftype hud-health (hud)
+  ((scale float  :offset-assert 284)
+   )
+  :method-count-assert 27
+  :size-assert         #x120
+  :heap-base           #xb0
+  :flag-assert         #x1b00b00120
+  )
+
 (deftype hud-money-all (hud)
-  ((x-scale     float   :offset-assert 280)
-   (y-scale     float   :offset-assert 284)
-   (y-pos       int32   :offset-assert 288)
-   (total-orbs  int32   :offset-assert 292)
-   (level-index int32   :offset-assert 296)
+  ((x-scale     float   :offset-assert 284)
+   (y-scale     float   :offset-assert 288)
+   (y-pos       int32   :offset-assert 292)
+   (total-orbs  int32   :offset-assert 296)
+   (level-index int32   :offset-assert 300)
    (start-time  time-frame  :offset-assert 304)
    )
   :method-count-assert 27
@@ -22253,50 +22253,41 @@
   )
 
 (deftype hud-money (hud)
-  ((x-scale float  :offset-assert 280)
-   (y-scale float  :offset-assert 284)
-   (y-pos   int32  :offset-assert 288)
+  ((x-scale float  :offset-assert 284)
+   (y-scale float  :offset-assert 288)
+   (y-pos   int32  :offset-assert 292)
    )
   :method-count-assert 27
-  :size-assert         #x124
+  :size-assert         #x128
   :heap-base           #xc0
-  :flag-assert         #x1b00c00124
+  :flag-assert         #x1b00c00128
   )
 
 (deftype hud-fuel-cell (hud)
-  ((scale-starburst-3-x float  :offset-assert 280)
-   (scale-starburst-3-y float  :offset-assert 284)
-   (scale-starburst-4-x float  :offset-assert 288)
-   (scale-starburst-4-y float  :offset-assert 292)
-   (scale-icon          float  :offset-assert 296)
-   (scale-center        float  :offset-assert 300)
-   (icon-pos-y          int32  :offset-assert 304)
+  ((scale-starburst-3-x float  )
+   (scale-starburst-3-y float  )
+   (scale-starburst-4-x float  )
+   (scale-starburst-4-y float  )
+   (scale-icon          float )
+   (scale-center        float  )
+   (icon-pos-y          int32  )
    )
-  :method-count-assert 27
-  :size-assert         #x134
-  :heap-base           #xd0
-  :flag-assert         #x1b00d00134
+
   )
 
 (deftype hud-buzzers (hud)
-  ((scale         float  :offset-assert 280)
-   (text-y-offset int32  :offset-assert 284)
+  ((scale         float  )
+   (text-y-offset int32 )
    )
-  :method-count-assert 27
-  :size-assert         #x120
-  :heap-base           #xb0
-  :flag-assert         #x1b00b00120
+
   )
 
 (deftype hud-power (hud)
-  ((scale-timer   float  :offset-assert 280)
-   (scale-backing float  :offset-assert 284)
-   (scale-blue    float  :offset-assert 288)
+  ((scale-timer   float  )
+   (scale-backing float  )
+   (scale-blue    float  )
    )
-  :method-count-assert 27
-  :size-assert         #x124
-  :heap-base           #xc0
-  :flag-assert         #x1b00c00124
+
   )
 
 ;; - Functions
@@ -27911,18 +27902,12 @@
 
 (deftype hud-bike-heat (hud)
   ()
-  :method-count-assert 27
-  :size-assert         #x118
-  :heap-base           #xb0
-  :flag-assert         #x1b00b00118
+
   )
 
 (deftype hud-bike-speed (hud)
   ()
-  :method-count-assert 27
-  :size-assert         #x118
-  :heap-base           #xb0
-  :flag-assert         #x1b00b00118
+
   )
 
 ;; - Functions
